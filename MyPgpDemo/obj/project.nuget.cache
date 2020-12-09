@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "7b/Nr/c7f2d8artOhl8pfRlzeFq26efzsMuE6/aMvwUC2EAd12vh44KcMXic8pvPcZp3Hck0B864wQDk8BXXwA==",
+  "success": true,
+  "projectFilePath": "D:\\workplace\\MyPgpDemo\\MyPgpDemo\\MyPgpDemo.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\huynhcam.tuan\\.nuget\\packages\\portable.bouncycastle\\1.8.8\\portable.bouncycastle.1.8.8.nupkg.sha512"
+  ],
+  "logs": []
+}

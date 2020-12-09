@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "PGP Page";
+    var privateKey = @ViewBag.privateKey;
+    var publicKey = @ViewBag.publicKey;
+}
+@section ScriptLibs{
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+}
+@section Scripts{
+    <script>
+
+        var vue = new Vue({
+            el: '#app',
+            data: {
+                message: 'PGP core',
+            },
+            computed: {
+
+            },
+            methods: {
+                copy2clipboard: function (e) {
+                    var element = e.currentTarget
+
+                    var className = element.getAttribute('class');
+                    var copyText = document.querySelector(`textarea.${className}`);
+
+                    /* Select the text field */
+                    copyText.select();
+                    copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+                    /* Copy the text inside the text field */
+                    document.execCommand("copy");
+                }
+            },
+            //components: {
+            //    'component-a': ComponentA,
+            //    'component-b': ComponentB
+            //}
+        })
+
+    </script>
+}
+
+<div class="container " id="app">
+    <h1>{{message}}</h1>
+    <div class="row">
+
+        <div class="col-6">
+            <label>Private Key</label>
+            <button v-on:click="copy2clipboard" class="private">
+                #Copy to clipboard
+            </button>
+            <textarea class="private" style="width: 100%" rows="12" readonly>@privateKey</textarea>
+            <br />
+            <label>Public Key</label>
+            <button v-on:click="copy2clipboard" class="public">#Copy to clipboard</button>
+            <textarea class="public" style="width: 100%" rows="9" readonly>@publicKey</textarea>
+        </div>
+        <div class="col-6">
+
+        </div>
+    </div>
+</div>
+
