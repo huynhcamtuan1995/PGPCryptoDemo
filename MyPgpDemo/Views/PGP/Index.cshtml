@@ -1,63 +1,150 @@
 ﻿@{
     ViewData["Title"] = "PGP Page";
-    var privateKey = @ViewBag.privateKey;
-    var publicKey = @ViewBag.publicKey;
-}
-@section ScriptLibs{
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
-}
-@section Scripts{
-    <script>
-
-        var vue = new Vue({
-            el: '#app',
-            data: {
-                message: 'PGP core',
-            },
-            computed: {
-
-            },
-            methods: {
-                copy2clipboard: function (e) {
-                    var element = e.currentTarget
-
-                    var className = element.getAttribute('class');
-                    var copyText = document.querySelector(`textarea.${className}`);
-
-                    /* Select the text field */
-                    copyText.select();
-                    copyText.setSelectionRange(0, 99999); /*For mobile devices*/
-
-                    /* Copy the text inside the text field */
-                    document.execCommand("copy");
-                }
-            },
-            //components: {
-            //    'component-a': ComponentA,
-            //    'component-b': ComponentB
-            //}
-        })
-
-    </script>
 }
 
-<div class="container " id="app">
-    <h1>{{message}}</h1>
+@model MyPgpDemo.Models.KeyGenInput
+<div class="container px-0">
     <div class="row">
-
-        <div class="col-6">
-            <label>Private Key</label>
-            <button v-on:click="copy2clipboard" class="private">
-                #Copy to clipboard
+        <div class="col-4">
+            <label asp-for="Name">Name</label>
+            <input asp-for="Name" name="name" class="form-control mb-3" v-model="name" />
+            <label asp-for="Passphrase">passphrase</label>
+            <input asp-for="Passphrase" name="passphrase" class="form-control" v-model="passphrase" />
+            <button v-on:click="generateKey($event)"
+                    class="mt-3">
+                GENERATE
             </button>
-            <textarea class="private" style="width: 100%" rows="12" readonly>@privateKey</textarea>
-            <br />
-            <label>Public Key</label>
-            <button v-on:click="copy2clipboard" class="public">#Copy to clipboard</button>
-            <textarea class="public" style="width: 100%" rows="9" readonly>@publicKey</textarea>
+            <hr />
+            <div>
+                <div class="d-flex w-100 mb-2">
+                    <label>Public Key</label>
+                    <button v-on:click="copy2clipboard($event)"
+                            class="public ml-auto"
+                            data-name="publicKey">
+                        #Copy
+                    </button>
+                </div>
+                <textarea name="publicKey"
+                          v-model="publicKey"
+                          class="public w-100"
+                          rows="6"
+                          readonly></textarea>
+                <br />
+                <div class="d-flex w-100 mb-2 mt-3">
+                    <label>Private Key</label>
+                    <button v-on:click="copy2clipboard($event)"
+                            class="private ml-auto"
+                            data-name="privateKey">
+                        #Copy
+                    </button>
+                </div>
+                <textarea name="privateKey"
+                          v-model="privateKey"
+                          class="private w-100"
+                          rows="5"
+                          readonly></textarea>
+            </div>
         </div>
-        <div class="col-6">
+        <div class="col-4">
+            <div class="d-flex w-100">
+                <label>Message to Encrypt</label>
+            </div>
+            <textarea name="message1"
+                      class="w-100"
+                      rows="3"></textarea>
+            <hr />
+            <div class="d-flex w-100">
+                <label>PGP Sign</label>
+                <label class="switch ml-2">
+                    <input type="checkbox"
+                           name="type"
+                           v-model="type"
+                           data-toggle="collapse"
+                           data-target="#collapse"
+                           checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="d-flex w-100 mb-2">
+                <label>Public Key</label>
+                <button v-on:click="copy2input($event)"
+                        class="ml-auto"
+                        data-source="1">
+                    #Use all PGP
+                </button>
+            </div>
+            <textarea class="public w-100"
+                      rows="5"
+                      name="publicKey1"></textarea>
 
+            <div class="collapse show" id="collapse">
+                <div class="d-flex w-100 ">
+                    <label>Passphrase</label>
+                </div>
+                <input class="passphrase w-100"
+                       name="passphrase1" />
+                <div class="d-flex w-100 mt-2">
+                    <label>Private Key</label>
+
+                </div>
+                <textarea class="private w-100"
+                          name="privateKey1"
+                          rows="5"></textarea>
+            </div>
+            <hr />
+            <div class="d-flex w-100 mb-2">
+                <label>Encrypt Result</label>
+                <button v-on:click="copy2clipboard($event)"
+                        class="private ml-auto"
+                        data-name="encryptResult">
+                    #Copy
+                </button>
+            </div>
+            <textarea name="encryptResult"
+                      class="w-100"
+                      rows="5"></textarea>
+            <button v-on:click="encryptData($event)"
+                    class="mt-3">
+                Encrypt
+            </button>
+        </div>
+
+        <div class="col-4">
+            <div class="d-flex w-100">
+                <label>PGP-Encrypted Message</label>
+            </div>
+            <textarea name="message2"
+                      class="w-100"
+                      rows="5"></textarea>
+            <hr />
+
+            <div class="d-flex w-100 mb-2">
+                <label>Passphrase</label>
+                <button v-on:click="copy2input($event)"
+                        class="ml-auto"
+                        data-source="2">
+                    #Use all PGP
+                </button>
+            </div>
+            <input class="passphrase w-100" name="passphrase2" />
+            <div class="d-flex w-100 mt-2">
+                <label>Private Key</label>
+            </div>
+            <textarea class="private w-100"
+                      rows="5"
+                      name="privateKey2"></textarea>
+
+            <hr />
+            <div class="d-flex w-100">
+                <label>Decrypt Result</label>
+            </div>
+            <textarea name="decryptResult"
+                      class="w-100"
+                      rows="5"></textarea>
+            <button v-on:click="decryptData($event)"
+                    class="mt-3">
+                Decrypt
+            </button>
         </div>
     </div>
 </div>

@@ -11,14 +11,15 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "PGP",
+      "launchUrl": "GeneradeKeyPair",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "MyPgpDemo": {
       "commandName": "Project",
-      "launchBrowser": true,
+      //"launchBrowser": true,
+      "launchUrl": "GeneradeKeyPair",
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

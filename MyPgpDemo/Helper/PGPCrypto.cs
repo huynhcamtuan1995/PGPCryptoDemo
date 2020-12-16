@@ -89,7 +89,7 @@ namespace MyPgpDemo.Helper
 
             var result = Decrypt(inputStream, privateKeyIn, passPhrase, out outputStream);
 
-            if (string.IsNullOrWhiteSpace(exportFilePath))
+            if (!string.IsNullOrWhiteSpace(exportFilePath))
             {
                 using (Stream fileStream = new FileStream(exportFilePath, FileMode.Create, FileAccess.Write))
                     outputStream.CopyTo(fileStream);
