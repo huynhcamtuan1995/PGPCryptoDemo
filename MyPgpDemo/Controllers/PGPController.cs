@@ -12,7 +12,7 @@ namespace MyPgpDemo.Controllers
     public class PGPController : Controller
     {
         [HttpGet]
-        [Route("/GeneradeKeyPair")]
+        [Route("/")]
         public IActionResult Index()
         {
             return View();
