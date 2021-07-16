@@ -4,3 +4,5 @@ Pretty Good Privacy (PGP) is an encryption program that provides cryptographic p
 
 Simple demo Generate PGP key pair, PGP encrypt, PGP decrypt:
 - Demo link: https://enigmatic-garden-14337.herokuapp.com/
+
+![PGP](./PGPDescription.png?raw=true)
