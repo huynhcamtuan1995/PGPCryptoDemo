@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyPgpDemo.Helper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using MyPgpDemo.Models;
 
 namespace MyPgpDemo.Controllers
@@ -21,7 +16,7 @@ namespace MyPgpDemo.Controllers
         [HttpPost]
         public IActionResult GeneradeKeyPair([FromForm] KeyGenInput parametter)
         {
-            (string privateKey, string publicKey) = PGPCrypto.GenerateKey(parametter.Name.Replace(" ", ""), parametter.Passphrase.Replace(" ", ""));
+            (string privateKey, string publicKey) = PGPEncryption.PGPEncryption.GenerateKey(parametter.Name.Replace(" ", ""), parametter.Passphrase.Replace(" ", ""));
 
             return Json(new
             {
@@ -38,7 +33,7 @@ namespace MyPgpDemo.Controllers
             string data = string.Empty;
             if (parametter.Type == EncryptType.EncryptAndSign)
             {
-                data = PGPCrypto.EncryptAndSign(parametter.Message, parametter.PublicKey, parametter.PrivateKey, parametter.Passphrase);
+                data = PGPEncryption.PGPEncryption.EncryptAndSign(parametter.Message, parametter.PublicKey, parametter.PrivateKey, parametter.Passphrase);
             }
             else
             {
@@ -50,7 +45,7 @@ namespace MyPgpDemo.Controllers
         [HttpPost]
         public IActionResult DecryptPGP([FromForm] DecryptInput parametter)
         {
-            string data = PGPCrypto.Decrypt(parametter.EncryptedMessage, parametter.PrivateKey, parametter.Passphrase);
+            string data = PGPEncryption.PGPEncryption.Decrypt(parametter.EncryptedMessage, parametter.PrivateKey, parametter.Passphrase);
 
             return Json(data);
         }

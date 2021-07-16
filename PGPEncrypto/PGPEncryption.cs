@@ -7,15 +7,14 @@ using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Utilities.IO;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace MyPgpDemo.Helper
+
+namespace PGPEncryption
 {
-    public class PGPCrypto
+    public class PGPEncryption
     {
         private const int BufferSize = 0x10000;
 
